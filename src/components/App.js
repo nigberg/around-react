@@ -3,45 +3,43 @@ import Main from "./Main";
 import Footer from "./Footer";
 import ImagePopup from "./ImagePopup";
 import PopupWithForm from "./PopupWithForm";
-
-let isEditProfilePopupOpen = false;
-let isAddPlacePopupOpen = false;
-let isEditAvatarPopupOpen = false;
-let isCardPopupOpen = false;
-let isConfirmPopupOpen = false;
-
-const handleEditAvatarClick = () => {  
-  console.log("ava clicked "+isEditAvatarPopupOpen);
-  isEditAvatarPopupOpen = true;
-  console.log("ava clicked "+isEditAvatarPopupOpen);
-};
-
-const handleEditProfileClick = () => {
-  isEditProfilePopupOpen = true;
-};
-
-const handleAddPlaceClick = () => {
-  isAddPlacePopupOpen = true;
-};
-
-const handleCardClick = () => {
-  isCardPopupOpen = true;
-};
-
-const closeAllPopups = () => {
-  isEditProfilePopupOpen = false;
-  isAddPlacePopupOpen = false;
-  isEditAvatarPopupOpen = false;
-  isCardPopupOpen = false;
-  isConfirmPopupOpen = false;
-  console.log("close button clicked");
-};
-
-const handleConfirmClick = () => {
-  isConfirmPopupOpen = true;
-};
+import { useState } from "react";
 
 function App() {
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [isCardPopupOpen, setIsCardPopupOpen] = useState(false);
+  const [isConfirmPopupOpen, setIsConfirmPopupOpen] = useState(false);
+
+  const handleEditAvatarClick = () => {    
+    setIsEditAvatarPopupOpen(true);    
+  };
+
+  const handleEditProfileClick = () => {
+    setIsEditProfilePopupOpen(true);
+  };
+
+  const handleAddPlaceClick = () => {
+    setIsAddPlacePopupOpen(true);
+  };
+
+  const handleCardClick = () => {
+    setIsCardPopupOpen(true);
+  };
+
+  const closeAllPopups = () => {
+    setIsEditAvatarPopupOpen(false);
+    setIsAddPlacePopupOpen(false);
+    setIsCardPopupOpen(false);
+    setIsConfirmPopupOpen(false);
+    setIsEditProfilePopupOpen(false);
+  };
+
+  const handleConfirmClick = () => {
+    setIsConfirmPopupOpen(true);
+  };
+
   return (
     <div className="page">
       <Header />
@@ -141,7 +139,7 @@ function App() {
           <span className="form__input-error avatar-change-popup__input-link-error"></span>
         </div>
       </PopupWithForm>
-      <ImagePopup isOpen={isCardPopupOpen} onClose={closeAllPopups}/>
+      <ImagePopup isOpen={isCardPopupOpen} onClose={closeAllPopups} />
     </div>
   );
 }
