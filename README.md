@@ -20,9 +20,4 @@ _Visual Studio Code_
   
 * [Link to the project on GitHub Pages](https://nigberg.github.io/around-react/)  
   
-**Images**  
-  
-![image info](.src/images/item1.jpg) 
-![image info](.src/images/item2.jpg) 
-![image info](.src/images/item3.jpg) 
-![image info](.src/images/item4.jpg) 
+
