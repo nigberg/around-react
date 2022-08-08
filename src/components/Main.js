@@ -1,33 +1,32 @@
 import pencil from "../images/edit.svg";
-import { useState, useEffect } from 'react';
-import { api } from '../utils/api';
+import { useState, useEffect } from "react";
+import { api } from "../utils/api";
 import Card from "./Card";
 
 function Main(props) {
+  const [userName, setUserName] = useState("");
+  const [userDescription, setUserDescription] = useState("");
+  const [userAvatar, setUserAvatar] = useState("");
+  const [cards, setCards] = useState([]);
 
-    const [userName, setUserName] = useState('');
-    const [userDescription, setUserDescription] = useState('');
-    const [userAvatar, setUserAvatar] = useState('');
-    const [cards, setCards] = useState([]);
+  useEffect(() => {
+    api
+      .getUserInfo()
+      .then((res) => {
+        setUserName(res.name);
+        setUserDescription(res.about);
+        setUserAvatar(res.avatar);
+      })
+      .catch(console.log);
 
-    useEffect(() => {
-      api
-        .getUserInfo()
-        .then((res) => {
-          setUserName(res.name);
-          setUserDescription(res.about);
-          setUserAvatar(res.avatar);
-        })
-        .catch(console.log);
+    api
+      .getInitialCards()
+      .then((res) => {
+        setCards(res);
+      })
+      .catch(console.log);
+  }, []);
 
-      api
-        .getInitialCards()
-        .then((res) => {
-          setCards(res);          
-        })
-        .catch(console.log);
-    }, []);
-    
   return (
     <main className="content">
       <section className="profile">
@@ -59,9 +58,9 @@ function Main(props) {
         ></button>
       </section>
       <section className="gallery">
-        {cards.map((item) => 
-          <Card key={item._id} card={item} onCardClick={props.onCardClick}/>
-        )}
+        {cards.map((item) => (
+          <Card key={item._id} card={item} onClick={props.onCardClick} />
+        ))}
       </section>
     </main>
   );
