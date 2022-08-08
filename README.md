@@ -18,11 +18,11 @@ _Fetch API_
 **IDE I used:**
 _Visual Studio Code_
   
-* [Link to the project on GitHub Pages](https://nigberg.github.io/web_project_4/)  
+* [Link to the project on GitHub Pages](https://nigberg.github.io/around-react/)  
   
 **Images**  
   
-![image info](./images/item1.jpg) 
-![image info](./images/item2.jpg) 
-![image info](./images/item3.jpg) 
-![image info](./images/item4.jpg) 
+![image info](.src/images/item1.jpg) 
+![image info](.src/images/item2.jpg) 
+![image info](.src/images/item3.jpg) 
+![image info](.src/images/item4.jpg) 
