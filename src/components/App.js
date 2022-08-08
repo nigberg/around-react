@@ -10,7 +10,7 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isCardPopupOpen, setIsCardPopupOpen] = useState(false);
-  const [isConfirmPopupOpen, setIsConfirmPopupOpen] = useState(false);
+  const [selectedCard, setSelectedCard] = useState({});
 
   const handleEditAvatarClick = () => {    
     setIsEditAvatarPopupOpen(true);    
@@ -24,22 +24,19 @@ function App() {
     setIsAddPlacePopupOpen(true);
   };
 
-  const handleCardClick = () => {
+  const handleCardClick = (card) => {
     setIsCardPopupOpen(true);
+    setSelectedCard(card);
   };
 
   const closeAllPopups = () => {
     setIsEditAvatarPopupOpen(false);
     setIsAddPlacePopupOpen(false);
-    setIsCardPopupOpen(false);
-    setIsConfirmPopupOpen(false);
+    setIsCardPopupOpen(false);    
     setIsEditProfilePopupOpen(false);
+    setSelectedCard({});
   };
-
-  const handleConfirmClick = () => {
-    setIsConfirmPopupOpen(true);
-  };
-
+  
   return (
     <div className="page">
       <Header />
@@ -49,8 +46,7 @@ function App() {
         onEditAvatarClick={handleEditAvatarClick}
         onAddPlaceClick={handleAddPlaceClick}
       />
-      <Footer />
-      <ImagePopup />
+      <Footer />      
       <PopupWithForm
         name="add"
         title="Add new place"
@@ -118,7 +114,7 @@ function App() {
       <PopupWithForm
         name="confirm"
         title="Are you sure?"
-        isOpen={isConfirmPopupOpen}
+        
         onClose={closeAllPopups}
       />
       <PopupWithForm
@@ -139,7 +135,7 @@ function App() {
           <span className="form__input-error avatar-change-popup__input-link-error"></span>
         </div>
       </PopupWithForm>
-      <ImagePopup isOpen={isCardPopupOpen} onClose={closeAllPopups} />
+      <ImagePopup isOpen={isCardPopupOpen} card={selectedCard} onClose={closeAllPopups} />
     </div>
   );
 }
