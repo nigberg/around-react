@@ -16,6 +16,7 @@ function App() {
   const [isCardPopupOpen, setIsCardPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
   const [currentUser, setCurrentUser] = useState({});
+  const [cards, setCards] = useState([]);
 
   //Current user data fetch on mounting
   useEffect(() => {
@@ -26,6 +27,17 @@ function App() {
       })
       .catch(console.log);
   }, []);
+
+  //Cards fetching
+  useEffect(() => {
+    api
+      .getInitialCards()
+      .then((res) => {
+        setCards(res);
+      })
+      .catch(console.log);
+  }, []);
+
 
   const handleEditAvatarClick = () => {
     setIsEditAvatarPopupOpen(true);
@@ -43,6 +55,24 @@ function App() {
     setIsCardPopupOpen(true);
     setSelectedCard(card);
   };
+
+  const handleCardLike = (card) => {
+    const isLiked = card.likes.some((user) => user._id === currentUser._id);
+
+    api.changeLikeCardStatus(card._id, isLiked).then((newCard) => {
+      setCards((state) =>
+        state.map((currentCard) =>
+          currentCard._id === card._id ? newCard : currentCard
+        )
+      );
+    });
+  }
+
+  const handleCardDelete = (card) => {
+    api.deleteCard(card._id).then(() => {      
+      setCards(cards.filter(item => item._id !== card._id));
+    });
+  }
 
   const closeAllPopups = () => {
     setIsEditAvatarPopupOpen(false);
@@ -77,10 +107,13 @@ function App() {
       <currentUserContext.Provider value={currentUser}>
         <Header />
         <Main
+          cards={cards}
           onCardClick={handleCardClick}
           onEditProfileClick={handleEditProfileClick}
           onEditAvatarClick={handleEditAvatarClick}
           onAddPlaceClick={handleAddPlaceClick}
+          onCardLike={handleCardLike}
+          onCardDelete={handleCardDelete}
         />
         <Footer />
         <PopupWithForm
