@@ -5,6 +5,7 @@ import ImagePopup from "./ImagePopup";
 import PopupWithForm from "./PopupWithForm";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
+import AddPlacePopup from "./AddPlacePopup";
 import { useState, useEffect } from "react";
 import { api } from "../utils/api";
 import { currentUserContext } from "../contexts/CurrentUserContext";
@@ -38,7 +39,6 @@ function App() {
       .catch(console.log);
   }, []);
 
-
   const handleEditAvatarClick = () => {
     setIsEditAvatarPopupOpen(true);
   };
@@ -66,13 +66,13 @@ function App() {
         )
       );
     });
-  }
+  };
 
   const handleCardDelete = (card) => {
-    api.deleteCard(card._id).then(() => {      
-      setCards(cards.filter(item => item._id !== card._id));
+    api.deleteCard(card._id).then(() => {
+      setCards(cards.filter((item) => item._id !== card._id));
     });
-  }
+  };
 
   const closeAllPopups = () => {
     setIsEditAvatarPopupOpen(false);
@@ -102,6 +102,16 @@ function App() {
       .catch(console.log);
   }
 
+  function handleAddPlaceSubmit({ name, link }) {
+    api
+      .addNewCard({ name, link })
+      .then((newCard) => {
+        setCards([newCard, ...cards]);
+        closeAllPopups();
+      })
+      .catch(console.log);
+  }
+
   return (
     <div className="page">
       <currentUserContext.Provider value={currentUser}>
@@ -116,37 +126,11 @@ function App() {
           onCardDelete={handleCardDelete}
         />
         <Footer />
-        <PopupWithForm
-          name="add"
-          title="Add new place"
+        <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
-        >
-          <div className="form__field">
-            <input
-              type="text"
-              minLength="1"
-              maxLength="30"
-              required
-              className="form__input"
-              id="add-popup__input-description"
-              name="name"
-              placeholder="Enter place name"
-            />
-            <span className="form__input-error add-popup__input-description-error"></span>
-          </div>
-          <div className="form__field">
-            <input
-              type="url"
-              required
-              className="form__input"
-              id="add-popup__input-link"
-              name="link"
-              placeholder="Enter picture link"
-            />
-            <span className="form__input-error add-popup__input-link-error"></span>
-          </div>
-        </PopupWithForm>
+          onAddPlace={handleAddPlaceSubmit}
+        />
 
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
@@ -158,7 +142,9 @@ function App() {
           name="confirm"
           title="Are you sure?"
           onClose={closeAllPopups}
+          onAddPlace={handleAddPlaceSubmit}
         />
+
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}

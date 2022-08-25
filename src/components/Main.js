@@ -5,7 +5,7 @@ import Card from "./Card";
 import { currentUserContext } from "../contexts/CurrentUserContext";
 
 function Main(props) {
-  const currentUser = useContext(currentUserContext);  
+  const currentUser = useContext(currentUserContext);
 
   return (
     <main className="content">
