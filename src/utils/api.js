@@ -11,70 +11,66 @@ class Api {
     return Promise.reject(`Error ${res.status}`);
   }
 
-
   getUserInfo() {
-    return fetch(this._baseUrl+'/users/me', {
-      headers: this._headers
-    })
-    .then(this._checkResponse);
+    return fetch(this._baseUrl + "/users/me", {
+      headers: this._headers,
+    }).then(this._checkResponse);
   }
 
   getInitialCards() {
-    return fetch(this._baseUrl+'/cards', {
-      headers: this._headers
-    })
-    .then(this._checkResponse);
+    return fetch(this._baseUrl + "/cards", {
+      headers: this._headers,
+    }).then(this._checkResponse);
   }
 
-  editProfile({name, about}){
-    return fetch(this._baseUrl+'/users/me', {
+  editProfile({ name, about }) {
+    return fetch(this._baseUrl + "/users/me", {
       method: "PATCH",
       headers: this._headers,
-      body: JSON.stringify({name, about})
-    })
-    .then(this._checkResponse);
+      body: JSON.stringify({ name, about }),
+    }).then(this._checkResponse);
   }
 
-  addNewCard({name, link}){
-    return fetch(this._baseUrl+'/cards', {
+  addNewCard({ name, link }) {
+    return fetch(this._baseUrl + "/cards", {
       method: "POST",
       headers: this._headers,
-      body: JSON.stringify({name, link})
-    })
-    .then(this._checkResponse);
+      body: JSON.stringify({ name, link }),
+    }).then(this._checkResponse);
   }
 
-  addLike(cardId){
-    return fetch(this._baseUrl+'/cards/likes/'+cardId, {
+  addLike(cardId) {
+    return fetch(this._baseUrl + "/cards/likes/" + cardId, {
       method: "PUT",
-      headers: this._headers
-    })
-    .then(this._checkResponse);
+      headers: this._headers,
+    }).then(this._checkResponse);
   }
 
-  removeLike(cardId){
-    return fetch(this._baseUrl+'/cards/likes/'+cardId, {
+  removeLike(cardId) {
+    return fetch(this._baseUrl + "/cards/likes/" + cardId, {
       method: "DELETE",
-      headers: this._headers
-    })
-    .then(this._checkResponse);
+      headers: this._headers,
+    }).then(this._checkResponse);
   }
 
-  deleteCard(cardId){
-    return fetch(this._baseUrl+'/cards/'+cardId, {
+  deleteCard(cardId) {
+    return fetch(this._baseUrl + "/cards/" + cardId, {
       method: "DELETE",
-      headers: this._headers
-    })
-    .then(this._checkResponse);
+      headers: this._headers,
+    }).then(this._checkResponse);
   }
 
-  setAvatar(avatar){
-    return fetch(this._baseUrl+'/users/me/avatar', {
+  changeLikeCardStatus(cardId, isLiked) {
+    console.log(isLiked);
+    return isLiked ? this.removeLike(cardId) : this.addLike(cardId);
+  }
+
+  setAvatar(avatar) {
+    return fetch(this._baseUrl + "/users/me/avatar", {
       method: "PATCH",
       headers: this._headers,
-      body: JSON.stringify({avatar})
-    })
-    .then(this._checkResponse);
+      body: JSON.stringify({ avatar }),
+    }).then(this._checkResponse);
   }
 }
 
