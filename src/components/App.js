@@ -7,7 +7,7 @@ import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import { useState, useEffect } from "react";
-import { api } from "../utils/api";
+import api from "../utils/api";
 import { currentUserContext } from "../contexts/CurrentUserContext";
 
 function App() {
