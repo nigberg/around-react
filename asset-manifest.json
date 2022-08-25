@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/nigberg/around-react/static/css/main.c40cff8b.css",
-    "main.js": "/nigberg/around-react/static/js/main.eb696888.js",
+    "main.css": "/nigberg/around-react/static/css/main.6f6e14a0.css",
+    "main.js": "/nigberg/around-react/static/js/main.a86179f8.js",
     "static/js/787.1c78f32b.chunk.js": "/nigberg/around-react/static/js/787.1c78f32b.chunk.js",
     "static/media/Inter-Medium.woff": "/nigberg/around-react/static/media/Inter-Medium.9053572c46aeb4b16caa.woff",
     "static/media/Inter-Black.woff": "/nigberg/around-react/static/media/Inter-Black.c6938660eec019fefd68.woff",
@@ -18,12 +18,12 @@
     "static/media/close.svg": "/nigberg/around-react/static/media/close.0ca722bc0e922fcea36e.svg",
     "static/media/edit.svg": "/nigberg/around-react/static/media/edit.6c7bf05444b9793fdf6e73a2dd202e7e.svg",
     "static/media/add.svg": "/nigberg/around-react/static/media/add.bed8c136e13907f5eefb.svg",
-    "main.c40cff8b.css.map": "/nigberg/around-react/static/css/main.c40cff8b.css.map",
-    "main.eb696888.js.map": "/nigberg/around-react/static/js/main.eb696888.js.map",
+    "main.6f6e14a0.css.map": "/nigberg/around-react/static/css/main.6f6e14a0.css.map",
+    "main.a86179f8.js.map": "/nigberg/around-react/static/js/main.a86179f8.js.map",
     "787.1c78f32b.chunk.js.map": "/nigberg/around-react/static/js/787.1c78f32b.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.c40cff8b.css",
-    "static/js/main.eb696888.js"
+    "static/css/main.6f6e14a0.css",
+    "static/js/main.a86179f8.js"
   ]
 }
