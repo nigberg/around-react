@@ -1,13 +1,16 @@
 import PopupWithForm from "./PopupWithForm";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 
-function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
+function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isWaiting }) {
   const avatarUrl = useRef();
+
+  useEffect(() => {
+    avatarUrl.current.value = "";
+  }, [isOpen]);
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
     onUpdateAvatar(avatarUrl.current.value);
-    avatarUrl.current.value = "";
   };
   return (
     <PopupWithForm
@@ -16,6 +19,7 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
       name="avatar-change"
       title="New profile picture"
       onSubmit={handleSubmit}
+      isWaiting={isWaiting}
     >
       <div className="form__field">
         <input

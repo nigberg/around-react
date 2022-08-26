@@ -1,16 +1,16 @@
 import PopupWithForm from "./PopupWithForm";
 import { useState, useContext, useEffect } from "react";
-import { currentUserContext } from "../contexts/CurrentUserContext";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
-  const currentUser = useContext(currentUserContext);
+function EditProfilePopup({ isOpen, onClose, onUpdateUser, isWaiting }) {
+  const currentUser = useContext(CurrentUserContext);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
 
   useEffect(() => {
     setName(currentUser.name);
     setDescription(currentUser.about);
-  }, [currentUser]);
+  }, [currentUser, isOpen]);
 
   const onNameChange = (evt) => {
     setName(evt.target.value);
@@ -35,6 +35,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
+      isWaiting={isWaiting}
     >
       <div className="form__field">
         <input
@@ -46,7 +47,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
           id="edit-popup__input-name"
           name="name"
           placeholder="Enter your name"
-          value={name}
+          value={name || ""}
           onChange={onNameChange}
         />
         <span className="form__input-error edit-popup__input-name-error"></span>
@@ -61,7 +62,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
           id="edit-popup__input-about"
           name="about"
           placeholder="About you"
-          value={description}
+          value={description || ""}
           onChange={onDescriptionChange}
         />
         <span className="form__input-error edit-popup__input-about-error"></span>

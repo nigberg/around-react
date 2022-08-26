@@ -2,10 +2,10 @@ import pencil from "../images/edit.svg";
 import { useContext } from "react";
 
 import Card from "./Card";
-import { currentUserContext } from "../contexts/CurrentUserContext";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Main(props) {
-  const currentUser = useContext(currentUserContext);
+  const currentUser = useContext(CurrentUserContext);
 
   return (
     <main className="content">

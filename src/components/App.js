@@ -8,7 +8,7 @@ import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import { useState, useEffect } from "react";
 import api from "../utils/api";
-import { currentUserContext } from "../contexts/CurrentUserContext";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -18,6 +18,7 @@ function App() {
   const [selectedCard, setSelectedCard] = useState({});
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
+  const [waiting, setWaiting] = useState(false);
 
   //Current user data fetch on mounting
   useEffect(() => {
@@ -59,19 +60,25 @@ function App() {
   const handleCardLike = (card) => {
     const isLiked = card.likes.some((user) => user._id === currentUser._id);
 
-    api.changeLikeCardStatus(card._id, isLiked).then((newCard) => {
-      setCards((state) =>
-        state.map((currentCard) =>
-          currentCard._id === card._id ? newCard : currentCard
-        )
-      );
-    });
+    api
+      .changeLikeCardStatus(card._id, isLiked)
+      .then((newCard) => {
+        setCards((state) =>
+          state.map((currentCard) =>
+            currentCard._id === card._id ? newCard : currentCard
+          )
+        );
+      })
+      .catch(console.log);
   };
 
   const handleCardDelete = (card) => {
-    api.deleteCard(card._id).then(() => {
-      setCards(cards.filter((item) => item._id !== card._id));
-    });
+    api
+      .deleteCard(card._id)
+      .then(() => {
+        setCards(cards.filter((item) => item._id !== card._id));
+      })
+      .catch(console.log);
   };
 
   const closeAllPopups = () => {
@@ -82,39 +89,66 @@ function App() {
     setSelectedCard({});
   };
 
+  //closing modal windows by pressing escape key
+  useEffect(() => {
+    const closeByEscape = (e) => {
+      if (e.key === "Escape") {
+        closeAllPopups();
+      }
+    };
+
+    document.addEventListener("keydown", closeByEscape);
+
+    //event listener removing on unmounting
+    return () => document.removeEventListener("keydown", closeByEscape);
+  }, []);
+
   function handleUpdateUser({ name, about }) {
+    setWaiting(true);
     api
       .editProfile({ name, about })
       .then((newUserInfo) => {
+        console.log(waiting);
         setCurrentUser(newUserInfo);
         closeAllPopups();
       })
-      .catch(console.log);
+      .catch(console.log)
+      .finally(() => {
+        setWaiting(false);
+      });
   }
 
   function hanldeUpdateAvatar(avatarUrl) {
+    setWaiting(true);
     api
       .setAvatar(avatarUrl)
       .then((newUserInfo) => {
         setCurrentUser(newUserInfo);
         closeAllPopups();
       })
-      .catch(console.log);
+      .catch(console.log)
+      .finally(() => {
+        setWaiting(false);
+      });
   }
 
   function handleAddPlaceSubmit({ name, link }) {
+    setWaiting(true);
     api
       .addNewCard({ name, link })
       .then((newCard) => {
         setCards([newCard, ...cards]);
         closeAllPopups();
       })
-      .catch(console.log);
+      .catch(console.log)
+      .finally(() => {
+        setWaiting(false);
+      });
   }
 
   return (
     <div className="page">
-      <currentUserContext.Provider value={currentUser}>
+      <CurrentUserContext.Provider value={currentUser}>
         <Header />
         <Main
           cards={cards}
@@ -130,25 +164,27 @@ function App() {
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
           onAddPlace={handleAddPlaceSubmit}
+          isWaiting={waiting}
         />
 
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
+          isWaiting={waiting}
         />
 
         <PopupWithForm
           name="confirm"
           title="Are you sure?"
           onClose={closeAllPopups}
-          onAddPlace={handleAddPlaceSubmit}
         />
 
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
           onUpdateAvatar={hanldeUpdateAvatar}
+          isWaiting={waiting}
         />
 
         <ImagePopup
@@ -156,7 +192,7 @@ function App() {
           card={selectedCard}
           onClose={closeAllPopups}
         />
-      </currentUserContext.Provider>
+      </CurrentUserContext.Provider>
     </div>
   );
 }

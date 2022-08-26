@@ -1,9 +1,14 @@
 import PopupWithForm from "./PopupWithForm";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
+function AddPlacePopup({ isOpen, onClose, onAddPlace, isWaiting }) {
   const [name, setName] = useState("");
   const [link, setLink] = useState("");
+
+  useEffect(() => {
+    setName("");
+    setLink("");
+  }, [isOpen]);
 
   const onNameChange = (evt) => {
     setName(evt.target.value);
@@ -16,8 +21,6 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
   const handleSubmit = (evt) => {
     evt.preventDefault();
     onAddPlace({ name, link });
-    setName("");
-    setLink("");
   };
 
   return (
@@ -27,6 +30,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
       name="add"
       title="Add new place"
       onSubmit={handleSubmit}
+      isWaiting={isWaiting}
     >
       <div className="form__field">
         <input
