@@ -1,26 +1,17 @@
 import PopupWithForm from "./PopupWithForm";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { useForm } from "../utils/useForm";
 
 function AddPlacePopup({ isOpen, onClose, onAddPlace, isWaiting }) {
-  const [name, setName] = useState("");
-  const [link, setLink] = useState("");
-
+  const { values, handleChange, setValues } = useForm({ "name": "", "link": "" });
+  
   useEffect(() => {
-    setName("");
-    setLink("");
-  }, [isOpen]);
-
-  const onNameChange = (evt) => {
-    setName(evt.target.value);
-  };
-
-  const onLinkChange = (evt) => {
-    setLink(evt.target.value);
-  };
+    setValues({ "name": "", "link": "" });   
+  }, [isOpen]);  
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    onAddPlace({ name, link });
+    onAddPlace(values);
   };
 
   return (
@@ -42,8 +33,8 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isWaiting }) {
           id="add-popup__input-description"
           name="name"
           placeholder="Enter place name"
-          value={name}
-          onChange={onNameChange}
+          value={values["name"]}
+          onChange={handleChange}
         />
         <span className="form__input-error add-popup__input-description-error"></span>
       </div>
@@ -55,8 +46,8 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isWaiting }) {
           id="add-popup__input-link"
           name="link"
           placeholder="Enter picture link"
-          value={link}
-          onChange={onLinkChange}
+          value={values["link"]}
+          onChange={handleChange}
         />
         <span className="form__input-error add-popup__input-link-error"></span>
       </div>
